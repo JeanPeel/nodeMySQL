@@ -1,0 +1,22 @@
+{
+  "name": "nodemysql",
+  "version": "1.0.0",
+  "description": "basic web server",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeanPeel/nodeMySQL.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JeanPeel/nodeMySQL/issues"
+  },
+  "homepage": "https://github.com/JeanPeel/nodeMySQL#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
