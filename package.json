@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/JeanPeel/nodeMySQL/issues"
   },
-  "homepage": "https://github.com/JeanPeel/nodeMySQL#readme"
+  "homepage": "https://github.com/JeanPeel/nodeMySQL#readme",
+  "dependencies": {
+    "cli-table": "^0.3.1",
+    "cli-table2": "^0.2.0",
+    "console.table": "^0.10.0",
+    "inquirer": "^7.1.0",
+    "mysql": "^2.18.1"
+  }
 }
