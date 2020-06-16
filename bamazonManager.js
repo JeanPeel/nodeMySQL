@@ -15,8 +15,7 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) throw err;
   console.log('Connected!');
-  main()
-
+  main();
 });
 
 //Main function to display all products on Bamazon.
@@ -25,7 +24,7 @@ const main = () => {
   loadProducts(connection)
 }
 
-//Creating this function to load all products from database when node is run.
+//Function to load all products from database when node is run.
 
 const loadProducts = connection => {
   connection.query("SELECT * FROM products", (err, res) => {
@@ -35,26 +34,13 @@ const loadProducts = connection => {
   })
 }
 
-//Function to ask customer for the ID of the product as well as the quantity
-//that they'd like to buy.
-//Function also validates whether or not customer input is a valid ID.
+  // List of all items with an inventory count lower than five.
 
-const askCustomerForItem = items => {
+const lowInventory = items => {
   inquirer.prompt([{
     type: "input",
     name: "id",
-    message: "What item would you like to purchase?",
-    validate: function (value) {
-      if (!isNaN(value)) {
-        return true
-      }
-      return "Sorry! Not valid!"
-    }
-  },
-  {
-    type: "input",
-    name: "quantity",
-    message: "How many would you like to purchase?",
+    message: "",
   }
   ]).then(val => {
     //Getting quantity from array.
@@ -82,30 +68,7 @@ const askCustomerForItem = items => {
   })
 }
 
-//Updating the SQL database to reflect the remaining quantity and showing customer the total cost of 
-//their purchase.
+  // * If a manager selects `Add to Inventory`, your app should display a prompt that will let the manager "add more" of any item currently in the store.
 
-const customerCheckoutCart = (id, quantity, price) => {
+  // * If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
 
-  console.log(id, quantity, price)
-  connection.query("UPDATE products SET ? WHERE ?", [
-    { stock_quantity: quantity },
-    { item_id: id }
-  ],
-    function (error) {
-      if (error) throw err;
-      console.log("Order placed successfully!");
-      console.log("The total price is $" + price)
-
-      main(); 
-      
-      //Future TO DO: instead of callng main, do another inquirer and ask "would you like to purchase another item"
-      //if they want to leave, then execute leavestore
-      //
-    }
-  )
-}
-//Future TO DO: finish up with connection.end within leaveStore function
-
-// const leaveStore = () => {
-// }
