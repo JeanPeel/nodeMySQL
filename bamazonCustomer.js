@@ -1,10 +1,6 @@
-//Dependencies and console.table to display "store."
-
 const inquirer = require("inquirer")
 const mysql = require("mysql")
 require("console.table")
-
-//Creating connection to Mysql database.
 
 const connection = mysql.createConnection({
   host: '127.0.0.1',
@@ -20,13 +16,10 @@ connection.connect((err) => {
 
 });
 
-//Main function to display all products on Bamazon.
 
 const main = () => {
   loadProducts(connection)
 }
-
-//Creating this function to load all products from database when node is run.
 
 const loadProducts = connection => {
   connection.query("SELECT * FROM products", (err, res) => {
@@ -35,10 +28,6 @@ const loadProducts = connection => {
     askCustomerForItem(res)
   })
 }
-
-//Function to ask customer for the ID of the product as well as the quantity
-//that they'd like to buy.
-//Function also validates whether or not customer input is a valid ID.
 
 const askCustomerForItem = items => {
   inquirer.prompt([{
@@ -58,18 +47,12 @@ const askCustomerForItem = items => {
     message: "How many would you like to purchase?",
   }
   ]).then(val => {
-    //Getting quantity from array.
     const userQuantity = val.quantity
-    //Retrieving data from database by ID.
     connection.query("SELECT * FROM products WHERE item_id =" + val.id, (err, res) => {
       if (err) throw err
-      //Grabbing stock quantity from array and multiplying by customer's desired quantity to get full price of
-      //order.
       const stockQuantity = res[0].stock_quantity
       const priceOfCart = res[0].price * userQuantity
       console.log(stockQuantity)
-      //Comparing what customer chose as quantity to stock quantity and determining whether customer can
-      //purchase.
       if (userQuantity <= stockQuantity) {
         console.log("We have enough in stock!")
         const newQuantity = stockQuantity - userQuantity
@@ -82,9 +65,6 @@ const askCustomerForItem = items => {
     })
   })
 }
-
-//Updating the SQL database to reflect the remaining quantity and showing customer the total cost of 
-//their purchase.
 
 const customerCheckoutCart = (id, quantity, price) => {
 
@@ -99,14 +79,6 @@ const customerCheckoutCart = (id, quantity, price) => {
       console.log("The total price is $" + price)
 
       main(); 
-      
-      //Future TO DO: instead of callng main, do another inquirer and ask "would you like to purchase another item"
-      //if they want to leave, then execute leavestore
-      //
     }
   )
 }
-//Future TO DO: finish up with connection.end within leaveStore function
-
-// const leaveStore = () => {
-// }

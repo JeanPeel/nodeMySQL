@@ -5,7 +5,6 @@ CREATE DATABASE Bamazon;
 use Bamazon;
 
 CREATE TABLE products(
-    --Not null because item id should not be zero.
     item_id INT NOT NULL AUTO_INCREMENT,
     product_name VARCHAR(100) NULL,
     department_name VARCHAR(100) NULL,

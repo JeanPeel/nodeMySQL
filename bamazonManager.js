@@ -1,10 +1,6 @@
-//Dependencies and console.table to display "store."
-
 const inquirer = require("inquirer")
 const mysql = require("mysql")
 require("console.table")
-
-//Creating connection to Mysql database.
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -18,13 +14,9 @@ connection.connect((err) => {
   main();
 });
 
-//Main function to display all products on Bamazon.
-
 const main = () => {
   loadProducts(connection)
 }
-
-//Function to load all products from database when node is run.
 
 const loadProducts = connection => {
   connection.query("SELECT * FROM products", (err, res) => {
@@ -34,8 +26,6 @@ const loadProducts = connection => {
   })
 }
 
-  // List of all items with an inventory count lower than five.
-
 const lowInventory = items => {
   inquirer.prompt([{
     type: "input",
@@ -43,18 +33,12 @@ const lowInventory = items => {
     message: "",
   }
   ]).then(val => {
-    //Getting quantity from array.
     const userQuantity = val.quantity
-    //Retrieving data from database by ID.
     connection.query("SELECT * FROM products WHERE item_id =" + val.id, (err, res) => {
       if (err) throw err
-      //Grabbing stock quantity from array and multiplying by customer's desired quantity to get full price of
-      //order.
       const stockQuantity = res[0].stock_quantity
       const priceOfCart = res[0].price * userQuantity
       console.log(stockQuantity)
-      //Comparing what customer chose as quantity to stock quantity and determining whether customer can
-      //purchase.
       if (userQuantity <= stockQuantity) {
         console.log("We have enough in stock!")
         const newQuantity = stockQuantity - userQuantity
@@ -67,8 +51,3 @@ const lowInventory = items => {
     })
   })
 }
-
-  // * If a manager selects `Add to Inventory`, your app should display a prompt that will let the manager "add more" of any item currently in the store.
-
-  // * If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
-
